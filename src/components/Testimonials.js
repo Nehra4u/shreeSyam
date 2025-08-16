@@ -1,0 +1,214 @@
+import React, { useState, useEffect } from 'react';
+import './Testimonials.css';
+
+const Testimonials = () => {
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
+
+  const testimonials = [
+    {
+      name: 'Rajesh Kumar',
+      location: 'Delhi, India',
+      story: 'After visiting Khatu Shyam Ji, my life completely transformed. The divine blessings helped me overcome all obstacles in my business. Jai Shri Shyam!',
+      blessing: 'Business Success',
+      years: '5 years ago',
+      rating: 5
+    },
+    {
+      name: 'Priya Sharma',
+      location: 'Mumbai, India',
+      story: 'I was struggling with health issues for years. After taking darshan of Khatu Shyam Ji and offering my prayers with complete devotion, I was blessed with perfect health.',
+      blessing: 'Health Recovery',
+      years: '3 years ago',
+      rating: 5
+    },
+    {
+      name: 'Amit Singh',
+      location: 'Jaipur, India',
+      story: 'My son was facing difficulties in his studies. We visited the temple and prayed to Khatu Shyam Ji. Today, he is a successful engineer. The divine grace is beyond words.',
+      blessing: 'Educational Success',
+      years: '2 years ago',
+      rating: 5
+    },
+    {
+      name: 'Sunita Devi',
+      location: 'Chandigarh, India',
+      story: 'During the most challenging phase of my life, Khatu Shyam Ji showed me the path. His blessings brought peace and prosperity to my family.',
+      blessing: 'Family Harmony',
+      years: '4 years ago',
+      rating: 5
+    },
+    {
+      name: 'Vikram Patel',
+      location: 'Ahmedabad, India',
+      story: 'I was blessed with a child after 10 years of marriage through the grace of Khatu Shyam Ji. His miracles are real and his love is infinite.',
+      blessing: 'Child Blessing',
+      years: '1 year ago',
+      rating: 5
+    }
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsVisible(false);
+      setTimeout(() => {
+        setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+        setIsVisible(true);
+      }, 500);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [testimonials.length]);
+
+  const nextTestimonial = () => {
+    setIsVisible(false);
+    setTimeout(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+      setIsVisible(true);
+    }, 300);
+  };
+
+  const prevTestimonial = () => {
+    setIsVisible(false);
+    setTimeout(() => {
+      setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+      setIsVisible(true);
+    }, 300);
+  };
+
+  return (
+    <section id="testimonials" className="testimonials-section section">
+      <div className="divine-background">
+        <div className="floating-lotus">
+          <div className="lotus lotus-1"></div>
+          <div className="lotus lotus-2"></div>
+          <div className="lotus lotus-3"></div>
+        </div>
+      </div>
+
+      <div className="container">
+        <div className="testimonials-header">
+          <h2 className="section-title">Divine Experiences</h2>
+          <p className="section-subtitle">
+            Hear the miraculous stories of devotees whose lives were transformed by Khatu Shyam Ji's blessings
+          </p>
+        </div>
+
+        <div className="testimonials-showcase">
+          <div className="main-testimonial">
+            <div className={`testimonial-card ${isVisible ? 'visible' : 'hidden'}`}>
+              <div className="testimonial-background">
+                <div className="divine-glow"></div>
+              </div>
+              
+              <div className="testimonial-content">
+                <div className="blessing-badge">
+                  <span className="blessing-icon">✨</span>
+                  <span>{testimonials[currentTestimonial].blessing}</span>
+                </div>
+
+                <div className="testimonial-story">
+                  <div className="quote-mark">"</div>
+                  <p>{testimonials[currentTestimonial].story}</p>
+                </div>
+
+                <div className="testimonial-rating">
+                  {[...Array(testimonials[currentTestimonial].rating)].map((_, i) => (
+                    <span key={i} className="star">⭐</span>
+                  ))}
+                </div>
+
+                <div className="testimonial-author">
+                  <div className="author-avatar">
+                    <div className="avatar-glow"></div>
+                    <span className="avatar-initial">
+                      {testimonials[currentTestimonial].name.charAt(0)}
+                    </span>
+                  </div>
+                  <div className="author-info">
+                    <h4>{testimonials[currentTestimonial].name}</h4>
+                    <p>{testimonials[currentTestimonial].location}</p>
+                    <span className="testimonial-time">{testimonials[currentTestimonial].years}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="testimonial-controls">
+              <button className="control-btn prev" onClick={prevTestimonial}>
+                <span>‹</span>
+              </button>
+              <div className="testimonial-indicators">
+                {testimonials.map((_, index) => (
+                  <button
+                    key={index}
+                    className={`indicator ${index === currentTestimonial ? 'active' : ''}`}
+                    onClick={() => {
+                      setIsVisible(false);
+                      setTimeout(() => {
+                        setCurrentTestimonial(index);
+                        setIsVisible(true);
+                      }, 300);
+                    }}
+                  ></button>
+                ))}
+              </div>
+              <button className="control-btn next" onClick={nextTestimonial}>
+                <span>›</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="testimonials-grid">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={index}
+                className={`mini-testimonial ${index === currentTestimonial ? 'active' : ''}`}
+                onClick={() => {
+                  setIsVisible(false);
+                  setTimeout(() => {
+                    setCurrentTestimonial(index);
+                    setIsVisible(true);
+                  }, 300);
+                }}
+              >
+                <div className="mini-content">
+                  <div className="mini-blessing">{testimonial.blessing}</div>
+                  <div className="mini-author">{testimonial.name}</div>
+                  <div className="mini-location">{testimonial.location}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="devotee-stats">
+          <div className="stat-item">
+            <div className="stat-number">50,000+</div>
+            <div className="stat-label">Blessed Devotees</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-number">1000+</div>
+            <div className="stat-label">Miracle Stories</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-number">365</div>
+            <div className="stat-label">Days of Blessings</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-number">∞</div>
+            <div className="stat-label">Divine Love</div>
+          </div>
+        </div>
+
+        <div className="share-experience">
+          <h3>Share Your Divine Experience</h3>
+          <p>Have you been blessed by Khatu Shyam Ji? Share your story with fellow devotees</p>
+          <button className="btn btn-primary">Share Your Story</button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Testimonials;
